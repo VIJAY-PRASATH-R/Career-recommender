@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Career Analysis – CareerAI</title>
+  <meta name="description" content="Your personalized career recommendation from CareerAI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">🤖</span>
+        <span class="logo-text">Career<span class="accent">AI</span></span>
+      </div>
+      <a href="/" class="btn-ghost">← Try again</a>
+    </header>
+
+    <!-- Recommended career -->
+    <section class="card result-hero">
+      <div class="result-hero-tag">Recommended Career</div>
+      <div class="result-career-title">{{ result.career }}</div>
+      <a href="{{ result.job_link }}" target="_blank" rel="noopener" class="btn-primary btn-apply">
+        View jobs on LinkedIn →
+      </a>
+    </section>
+
+    <!-- Four agent cards -->
+    <div class="results-grid">
+
+      <section class="card agent-card" id="skills-card">
+        <div class="agent-card-header">
+          <div class="agent-badge badge-purple">Skill Agent</div>
+          <div class="agent-card-title">Extracted skills</div>
+        </div>
+        <div class="skills-cloud">
+          {% if result.skills %}
+            {% for skill in result.skills %}
+              <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+          {% else %}
+            <p class="muted">No skills extracted.</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <section class="card agent-card" id="interest-card">
+        <div class="agent-card-header">
+          <div class="agent-badge badge-blue">Interest Agent</div>
+          <div class="agent-card-title">Resume summary &amp; career options</div>
+        </div>
+        <div class="preformatted">{{ result.resume_summary }}</div>
+        {% if result.career_suggestions %}
+          <div class="divider"></div>
+          <div class="preformatted">{{ result.career_suggestions }}</div>
+        {% endif %}
+      </section>
+
+      <section class="card agent-card agent-card-wide" id="market-card">
+        <div class="agent-card-header">
+          <div class="agent-badge badge-green">Market Agent</div>
+          <div class="agent-card-title">Market demand scores</div>
+        </div>
+        {% if result.market and result.market.analysis %}
+          <div class="market-list">
+            {% for item in result.market.analysis %}
+              <div class="market-item">
+                <div class="market-item-top">
+                  <span class="market-career">{{ item.career }}</span>
+                  <span class="market-score">{{ item.demand_score }}/10</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar" style="--score: {{ item.demand_score }}"></div>
+                </div>
+                <div class="market-meta">
+                  <span class="confidence confidence-{{ item.confidence | lower }}">{{ item.confidence }}</span>
+                  <span class="market-reason">{{ item.reason }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% if result.market.overall_insight %}
+            <div class="insight-box">{{ result.market.overall_insight }}</div>
+          {% endif %}
+        {% else %}
+          <p class="muted">Market data unavailable.</p>
+        {% endif %}
+      </section>
+
+      <section class="card agent-card agent-card-wide" id="salary-card">
+        <div class="agent-card-header">
+          <div class="agent-badge badge-orange">Salary Agent</div>
+          <div class="agent-card-title">Salary ranges</div>
+        </div>
+        {% if result.salaries %}
+          <div class="salary-grid">
+            {% for s in result.salaries %}
+              <div class="salary-card-inner">
+                <div class="salary-role">{{ s.career }}</div>
+                <div class="salary-row">
+                  <span class="salary-label">🇮🇳 India</span>
+                  <span class="salary-value">{{ s.india_range }}</span>
+                </div>
+                <div class="salary-row">
+                  <span class="salary-label">🌍 Global</span>
+                  <span class="salary-value">{{ s.global_range }}</span>
+                </div>
+                <div class="salary-growth">{{ s.growth }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="muted">Salary data unavailable.</p>
+        {% endif %}
+      </section>
+
+    </div>
+
+    <!-- Final recommendation -->
+    <section class="card final-card">
+      <div class="agent-badge badge-gold" style="margin-bottom:0.75rem">Orchestrator — Final recommendation</div>
+      <div class="preformatted final-text">{{ result.final_output }}</div>
+    </section>
+
+    <div class="cta-row">
+      <a href="{{ result.job_link }}" target="_blank" rel="noopener" class="btn-primary">
+        View {{ result.career }} jobs on LinkedIn →
+      </a>
+      <a href="/" class="btn-ghost">Analyze another resume</a>
+    </div>
+
+    <footer class="site-footer">
+      CareerAI · Built with Groq + LangChain
+    </footer>
+  </div>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

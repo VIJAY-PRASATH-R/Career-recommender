@@ -1,0 +1,16 @@
+# ── Core HTTP Framework ─────────────────────────────────────────
+flask>=3.0.0
+
+# ── Groq LLM (all agents: skill, interest, salary, market) ─────
+groq>=0.9.0
+
+# ── PDF Text Extraction (skill agent) ──────────────────────────
+pypdf>=4.0.0
+
+# ── LangChain + Groq (market demand agent) ──────────────────────
+langchain>=0.2.0
+langchain-groq>=0.1.0
+langchain-core>=0.2.0
+
+# ── Env variable support (optional) ────────────────────────────
+python-dotenv>=1.0.0

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerAI – Career Path Recommender</title>
+  <meta name="description" content="Upload your resume and get a personalized career recommendation powered by 4 AI agents." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">🤖</span>
+        <span class="logo-text">Career<span class="accent">AI</span></span>
+      </div>
+      <span class="header-badge">Multi-Agent</span>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title">Find your best career path</h1>
+      <p class="hero-sub">
+        Upload your resume once. Four AI agents analyze your skills, interests,
+        market demand, and salary potential — then give you a recommendation that actually makes sense.
+      </p>
+      <div class="agent-pills">
+        <span class="pill">🧠 Skill Agent</span>
+        <span class="pill">💡 Interest Agent</span>
+        <span class="pill">📊 Market Agent</span>
+        <span class="pill">💰 Salary Agent</span>
+      </div>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">⚠️ {{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <section class="card form-card">
+      <form id="analyzeForm" action="/analyze" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label for="groq_key" class="form-label">Groq API Key</label>
+          <input
+            type="password"
+            id="groq_key"
+            name="groq_key"
+            class="form-input"
+            placeholder="gsk_..."
+            required
+            autocomplete="off"
+          />
+          <span class="form-hint">
+            Free key at <a href="https://console.groq.com" target="_blank" rel="noopener">console.groq.com</a>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Resume <span style="color:var(--muted);font-weight:400">(PDF)</span></label>
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-icon">📄</div>
+            <div class="drop-title">Drop your PDF here, or click to browse</div>
+            <div class="drop-file-name" id="dropFileName" style="display:none"></div>
+            <input type="file" id="resume" name="resume" accept=".pdf" required class="file-input" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="interests" class="form-label">
+            Additional interests <span class="optional">(optional)</span>
+          </label>
+          <textarea
+            id="interests"
+            name="interests"
+            class="form-input form-textarea"
+            placeholder="e.g. machine learning, product design, startups..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span class="btn-text">Analyze my career →</span>
+          <span class="btn-loading" style="display:none">
+            <span class="spinner"></span> Agents are working on it...
+          </span>
+        </button>
+      </form>
+    </section>
+
+    <section class="how-it-works">
+      <p class="section-title">How it works</p>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">📄</div>
+          <div class="step-title">Upload resume</div>
+          <div class="step-desc">Your PDF is parsed and text is extracted</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">🧠</div>
+          <div class="step-title">Skills extracted</div>
+          <div class="step-desc">AI identifies your technical and soft skills</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">🤝</div>
+          <div class="step-title">Agents collaborate</div>
+          <div class="step-desc">Four agents cross-check skills, market and salary data</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">04</div>
+          <div class="step-icon">🎯</div>
+          <div class="step-title">You get a result</div>
+          <div class="step-desc">Tailored career path with a LinkedIn job link</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      CareerAI · Built with Groq + LangChain
+    </footer>
+  </div>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
