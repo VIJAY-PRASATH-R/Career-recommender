@@ -15,17 +15,24 @@ A web app that analyzes your resume using **4 AI agents** to recommend the most 
 | 📊 Market Agent | Scores market demand for each career |
 | 💰 Salary Agent | Provides India + global salary ranges |
 
-## Setup
+## Setup & Deployment
 
+### 🌐 Vercel (Web App)
+The `requirements.txt` is optimized for Vercel's 250MB limit. Simply import this repo into Vercel to deploy.
+
+### 💻 Local Development (Full)
+To run everything locally, including the original legacy scripts:
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 python app.py
 ```
 
-Then open **http://localhost:5000**
+## Project Structure
+- `app.py`: Main Flask web app.
+- `agents/`: The multi-agent logic.
+- `skill_analyzer.py`, `interest.py`, `market_agent.py`: Original legacy scripts.
 
 ## Tech Stack
-
 - **Backend:** Flask, Groq LLM, LangChain
 - **PDF Parsing:** pypdf
-- **Frontend:** Vanilla HTML/CSS/JS
+- **Frontend:** Vanilla HTML/CSS/JS (Minimalist Design)

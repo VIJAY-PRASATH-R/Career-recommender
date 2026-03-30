@@ -1,0 +1,17 @@
+# ── Full dependencies for all scripts (including legacy ones) ──
+
+# Web App
+flask
+python-dotenv
+groq
+pypdf
+langchain
+langchain-groq
+langchain-core
+
+# Legacy skill_analyzer.py (Heavy! Not for Vercel)
+llama-index-core
+llama-index-llms-groq
+llama-index-embeddings-huggingface
+transformers
+sentence-transformers
